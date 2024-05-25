@@ -185,6 +185,53 @@ def full_random_main():
         if i % 10 == 0:
             print(f"{i} iters left")
 
+def partial_random_main():
+    data = get_elements()
+    standard = get_standard()
+    i = 0
+
+    while i == 0 or not standard == ziped_table:
+        start_time = time.time()
+        v1 = randint(3, 22)
+        v2 = 25 - v1
+        v3 = randint(3, 22)
+        v4 = 25 - v3
+        v5 = randint(3, 22)
+
+        heaps = [[] for _ in range(6)]
+        s = data.copy()
+        shuffle(s)
+        for i in range(75):
+            if i < v1:
+                heaps[0].append(s[i])
+            elif v1 <= i < v1 + v2:
+                heaps[1].append(s[i])
+            elif v1 + v2 <= i < v1 + v2 + v3:
+                heaps[2].append(s[i])
+            elif v1 + v2 + v3 <= i < v1 + v2 + v3 + v4:
+                heaps[3].append(s[i])
+            elif v1 + v2 + v3 + v4 <= i < v1 + v2 + v3 + v4 + v5:
+                heaps[4].append(s[i])
+            else:
+                heaps[5].append(s[i])
+
+        triangles = [TriangleCircles(obj) for obj in heaps]
+        tables = [obj.get_edgesTable() for obj in triangles]
+        table = join_sixTables(*tables)
+        ziped_table = zip_table(table)
+        start_success = time.time()
+        success = standard == ziped_table
+        end_success = time.time()
+        end_time = time.time()
+        i += 1
+
+        print(success)
+        print(f"This one {end_time - start_time} seconds, success time {end_success - start_success}")
+
+        if success:
+            print(table)
+        if i % 10 == 0:
+            print(f"{i} iters left")
 
 if __name__ == '__main__':
     full_random_main()
